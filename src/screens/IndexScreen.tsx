@@ -1,0 +1,62 @@
+import * as React from 'react'
+import { NextComponentType } from 'next'
+import styled from '@emotion/styled'
+import { Layout, TrackInfoArea } from '@/components'
+import { consts } from '@/consts'
+import { TrackInfoItem } from '@/types'
+
+const bgImageWidth = consts.window.width
+const bgImageRedLineRate = 0.15
+const artworkSize = 350
+
+const Wrapper = styled.div`
+  width: ${bgImageWidth}px;
+  height: ${consts.window.height}px;
+  padding: 1rem;
+  background-image: url('/static/images/note.jpg');
+  background-size: ${bgImageWidth}px;
+  background-position: 0 bottom;
+`
+
+const Title = styled.h1`
+  margin: 0;
+  padding-left: ${bgImageWidth * bgImageRedLineRate}px;
+  padding-bottom: 1rem;
+  font-family: 'TsukuARdGothic-Regular', 'American Typewriter', sans-serif;
+`
+
+const Detail = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+`
+
+const ArtworkArea = styled.div`
+  width: ${artworkSize}px;
+  height: ${artworkSize}px;
+  background-color: #ddd;
+`
+
+const Artwork = styled.img`
+  width: ${artworkSize}px;
+  height: ${artworkSize}px;
+`
+
+interface IndexScreenProps {
+  title?: string
+  items: TrackInfoItem[]
+}
+
+export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title = '' }) => (
+  <Layout title={title}>
+    <Wrapper>
+      <Title>{title}</Title>
+      <Detail>
+        <ArtworkArea>
+          <Artwork src="/static/images/placeholder-song.png" />
+        </ArtworkArea>
+        <TrackInfoArea items={items} />
+      </Detail>
+    </Wrapper>
+  </Layout>
+)

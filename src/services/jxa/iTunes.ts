@@ -12,6 +12,7 @@ export interface TrackStatus {
   year?: number
   duration: number
   time: string
+  comment: string
   albumArtStr?: string
 }
 
@@ -38,6 +39,7 @@ export const getITunesStatusJXA = (withArtworkStr: boolean = false) =>
       year: track.year(),
       duration: track.duration(),
       time: track.time(),
+      comment: track.comment(),
       albumArtStr: withArtworkStr ? track.artworks()[0].rawData() : undefined
     })
 

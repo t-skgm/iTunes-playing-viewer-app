@@ -2,32 +2,33 @@ import * as React from 'react'
 import styled from '@emotion/styled'
 import { TrackInfoItem } from '@/types'
 
-const linePadding = '0.7rem'
-
 const Wrapper = styled.dl`
   flex: 1;
   display: flex;
   flex-wrap: wrap;
-  padding: ${linePadding} 0;
+  padding: 0.7rem 0;
   margin: 0 1rem;
   background-color: rgba(255, 255, 255, 0.5);
 `
 
 const InfoTitle = styled.dt`
   flex-basis: 20%;
-  padding: ${linePadding};
+  padding: .4rem;
   padding-left: 0;
   color: #434343;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: normal;
   text-align: right;
+  line-height: 2rem;
 `
 
 const InfoValue = styled.dd`
   flex-basis: 80%;
-  padding: ${linePadding} 0;
+  padding: .4rem 0;
   margin: 0;
   font-size: 1.1rem;
+  font-weight: bold;
+  line-height: 2rem;
 `
 
 interface TrackInfoAreaProps {

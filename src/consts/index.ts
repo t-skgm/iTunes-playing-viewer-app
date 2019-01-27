@@ -7,5 +7,6 @@ export const consts = {
     // 480p
     height: 480,
     width: 854
-  }
+  },
+  updateRateMs: 2000
 }

@@ -1,52 +1,24 @@
 import * as React from 'react'
-import { NextComponentType } from 'next'
-import Link from 'next/link'
-import { Layout, TrackInfoArea } from '@/components'
-import styled from '@emotion/styled'
+import { withRouter, WithRouterProps } from 'next/router'
 import { client } from '@/services/client'
-import { consts } from '@/consts'
-import { ApiPlayingRes, TrackInfoItem } from '@/types'
 import { TrackStatus } from '@/services/jxa/iTunes'
+import { ApiPlayingRes, TrackInfoItem } from '@/types'
+import { IndexScreen } from '@/screens/IndexScreen'
+import { consts } from '@/consts'
 
-const bgImageWidth = consts.window.width
-const bgImageRedLineRate = 0.15
-const artworkSize = 330
+const getAdditionalInfoFromComment = (comment: string): any => {
+  try {
+    return JSON.parse(comment)
+  } catch (error) {
+    console.log('JSON.parse error', error)
+    console.log('[body]', comment)
+    return {}
+  }
+}
 
-const Wrapper = styled.div`
-  width: ${bgImageWidth}px;
-  height: ${consts.window.height}px;
-  padding: 1rem;
-  background-image: url('/static/images/note.jpg');
-  background-size: ${bgImageWidth}px;
-  background-position: 0 bottom;
-`
-
-const Title = styled.h1`
-  margin: 0;
-  padding-left: ${bgImageWidth * bgImageRedLineRate}px;
-  padding-bottom: 1rem;
-  font-family: 'TsukuARdGothic-Regular', 'American Typewriter', sans-serif;
-`
-
-const Detail = styled.div`
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-`
-
-const ArtworkArea = styled.div`
-  width: ${artworkSize}px;
-  height: ${artworkSize}px;
-  background-color: #ddd;
-`
-
-const Artwork = styled.img`
-  width: ${artworkSize}px;
-  height: ${artworkSize}px;
-`
-
-const formatTrack = (status: TrackStatus): TrackInfoItem[] => {
-  return [{
+const formatInfoItems = (status: TrackStatus): TrackInfoItem[] => {
+  const additional = getAdditionalInfoFromComment(status.comment)
+  const items =  [{
     label: 'Title',
     value: status.title
   }, {
@@ -57,27 +29,49 @@ const formatTrack = (status: TrackStatus): TrackInfoItem[] => {
     value: status.album
   }, {
     label: 'Year',
-    value: status.year
+    value: status.year || '?'
   }]
+  if (additional.label) {
+    items.push({
+      label: 'Label',
+      value: additional.label
+    })
+  }
+  return items
 }
 
-const IndexPage: NextComponentType<ApiPlayingRes> = ({ track, playlist }) => (
-  <Layout title="Title">
-    <Wrapper>
-      <Title>{playlist.title}</Title>
-      <Detail>
-        <ArtworkArea>
-          <Artwork src="/static/images/placeholder-song.png" />
-        </ArtworkArea>
-        <TrackInfoArea items={formatTrack(track)} />
-      </Detail>
-    </Wrapper>
-  </Layout>
-)
+class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
+  interval: NodeJS.Timeout | null = null
+  
+  static getInitialProps = async () => {
+    const data = await client.getPlaying()
+    return data
+  }
 
-IndexPage.getInitialProps = async () => {
-  const data = await client.getPlaying()
-  return data
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      if (this.props.router) this.props.router.push('/')
+    }, consts.updateRateMs);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval!);
+  }
+
+  shouldComponentUpdate(nextProps: ApiPlayingRes) {
+    if (this.props.track.title === nextProps.track.title &&
+        this.props.track.album === nextProps.track.album) return false
+    return true
+  }
+
+  render() {
+    const { track, playlist } = this.props
+    const passProps = {
+      title: playlist.title,
+      items: formatInfoItems(track)
+    }
+    return (<IndexScreen {...passProps} />)
+  }  
 }
 
-export default IndexPage;
+export default withRouter(IndexPage)
