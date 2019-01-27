@@ -9,5 +9,6 @@ export const consts = {
     width: 854
   },
   updateRateMs: 2000,
-  artworkDir: './src/static/images/artworks'
+  artworkDir: './src/static/images/artworks',
+  artworkServerDir: '/static/images/artworks'
 }

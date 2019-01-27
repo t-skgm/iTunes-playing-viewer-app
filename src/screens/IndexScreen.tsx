@@ -45,15 +45,18 @@ const Artwork = styled.img`
 interface IndexScreenProps {
   title?: string
   items: TrackInfoItem[]
+  artworkPath?: string
 }
 
-export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title = '' }) => (
+export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title = '', artworkPath }) => (
   <Layout title={title}>
     <Wrapper>
       <Title>{title}</Title>
       <Detail>
         <ArtworkArea>
-          <Artwork src="/static/images/placeholder-song.png" />
+          {artworkPath 
+           ? <Artwork src={artworkPath} />
+           : <Artwork src="/static/images/placeholder-song.png" />}
         </ArtworkArea>
         <TrackInfoArea items={items} />
       </Detail>

@@ -16,20 +16,20 @@ const getAdditionalInfoFromComment = (comment: string): any => {
   }
 }
 
-const formatInfoItems = (status: TrackStatus): TrackInfoItem[] => {
-  const additional = getAdditionalInfoFromComment(status.comment)
+const formatInfoItems = (track: TrackStatus): TrackInfoItem[] => {
+  const additional = getAdditionalInfoFromComment(track.comment)
   const items =  [{
     label: 'Title',
-    value: status.title
+    value: track.title
   }, {
     label: 'Artist',
-    value: status.artist
+    value: track.artist
   }, {
     label: 'Album',
-    value: status.album
+    value: track.album
   }, {
     label: 'Year',
-    value: status.year || '?'
+    value: track.year || '?'
   }]
   if (additional.label) {
     items.push({
@@ -39,6 +39,9 @@ const formatInfoItems = (status: TrackStatus): TrackInfoItem[] => {
   }
   return items
 }
+
+const buildArtworkPath = (track: TrackStatus): string =>
+  `${consts.artworkServerDir}/${track.artist}-${track.title}.jpg`
 
 class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
   interval: NodeJS.Timeout | null = null
@@ -59,6 +62,7 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
   }
 
   shouldComponentUpdate(nextProps: ApiPlayingRes) {
+    if (!this.props.track || !nextProps.track) return true
     if (this.props.track.title === nextProps.track.title &&
         this.props.track.album === nextProps.track.album) return false
     return true
@@ -68,7 +72,8 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
     const { track, playlist } = this.props
     const passProps = {
       title: playlist.title,
-      items: formatInfoItems(track)
+      items: formatInfoItems(track),
+      artworkPath: buildArtworkPath(track)
     }
     return (<IndexScreen {...passProps} />)
   }  

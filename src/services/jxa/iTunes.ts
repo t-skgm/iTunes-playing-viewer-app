@@ -77,3 +77,60 @@ export const getAlbumArtTdtaStrJXA = () =>
       return 'no artwork'
     }
   })
+
+/*
+export const getAlbumArtTdtaStrJXA = () =>
+  run<string>(() => {
+    const app = Application.currentApplication()
+    const fs = require('fs')
+    app.includeStandardAdditions = true
+
+    const helpers = {
+      doShellScript: (cmd: string) => 
+        app.doShellScript(cmd, {
+          administratorPrivileges: false,
+          withPrompt: '',
+          alteringLineEndings: false
+        }),
+      ls: (path: string) => {
+        try {
+          return helpers.doShellScript(`ls ${path}`)
+        } catch {
+          return false
+        }
+      },
+      buildArtworkPath: (track: ITunes.Track) => {
+        const pwd = helpers.doShellScript('pwd')
+        return `${pwd}/src/static/images/artworks/${track.artist()}-${track.name()}.jpg`
+      },
+      tdtaToBuffer: (tdtaStr: string) => {
+        const hexStr = tdtaStr.replace(/^\'tdta\'\(\$|\$\)$/g, '')
+        const byteAry = helpers.hexStrings2byteAry(hexStr)
+        return new Uint8Array(byteAry)
+      },
+      hexStrings2byteAry: (str: string) =>
+        helpers.splitByLength(str, 2).map(h => parseInt(h, 16)),
+      splitByLength: (str: string, length: number) =>
+        str.split(new RegExp(`(.{${length}})`)).filter(e => e) // 空文字削除
+    }
+
+    try {
+      const iTunes = Application<ITunes.Application>('iTunes')
+      const track = iTunes.currentTrack()
+      const path = helpers.buildArtworkPath(track)
+      const exists = helpers.ls(path)
+
+      if(!exists) {
+        const albumArtStr = track.artworks()[0].rawData()
+        const buf = helpers.tdtaToBuffer(albumArtStr)
+        fs.writeFileSync('hoge.jpg', buf)
+        return true
+      } else {
+        return false
+      }  
+    } catch (e) {
+      console.log(e)
+      return 'no artwork'
+    }
+  })
+*/
