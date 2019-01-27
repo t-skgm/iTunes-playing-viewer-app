@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@*": ["./src*"],
+    },
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "removeComments": false,
+    "preserveConstEnums": true
+  }
+}
