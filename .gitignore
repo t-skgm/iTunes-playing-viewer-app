@@ -69,7 +69,6 @@ typings/
 
 # next.js build output
 .next
-bin/
 
 # nuxt.js build output
 .nuxt
@@ -88,4 +87,6 @@ bin/
 
 # End of https://www.gitignore.io/api/node
 
-lib/
+bin/
+src/static/images/artworks/*
+!.keep

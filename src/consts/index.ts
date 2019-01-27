@@ -8,5 +8,6 @@ export const consts = {
     height: 480,
     width: 854
   },
-  updateRateMs: 2000
+  updateRateMs: 2000,
+  artworkDir: './src/static/images/artworks'
 }

@@ -66,7 +66,7 @@ export const getITunesStatusJXA = (withArtworkStr: boolean = false) =>
   }, withArtworkStr)
 
 export const getAlbumArtTdtaStrJXA = () =>
-  run(() => {
+  run<string>(() => {
     const iTunes = Application<ITunes.Application>('iTunes')
     const track = iTunes.currentTrack()
     try {
