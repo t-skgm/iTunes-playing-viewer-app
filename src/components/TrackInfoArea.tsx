@@ -9,12 +9,14 @@ const Wrapper = styled.dl`
   padding: 0.7rem 0;
   margin: 0 1rem;
   background-color: rgba(255, 255, 255, 0.5);
+  /* box-shadow: 0px 2px 4px 0px rgba(183, 183, 183, 0.6); */
 `
 
 const InfoTitle = styled.dt`
   flex-basis: 20%;
   padding: .4rem;
   padding-left: 0;
+  padding-right: .5rem;
   color: #434343;
   font-size: 1.1rem;
   font-weight: normal;

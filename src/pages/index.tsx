@@ -47,8 +47,12 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
   interval: NodeJS.Timeout | null = null
   
   static getInitialProps = async () => {
-    const data = await client.getPlaying()
-    return data
+    try {
+      const data = await client.getPlaying()
+      return data
+    } catch (error) {
+      return null
+    }
   }
 
   componentDidMount() {
@@ -71,9 +75,9 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
   render() {
     const { track, playlist } = this.props
     const passProps = {
-      title: playlist.title,
-      items: formatInfoItems(track),
-      artworkPath: buildArtworkPath(track)
+      title: playlist ? playlist.title : undefined,
+      items: track ? formatInfoItems(track) : [],
+      artworkPath: track ? buildArtworkPath(track) : undefined
     }
     return (<IndexScreen {...passProps} />)
   }  

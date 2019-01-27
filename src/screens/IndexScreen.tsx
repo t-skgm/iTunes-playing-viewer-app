@@ -35,6 +35,7 @@ const ArtworkArea = styled.div`
   width: ${artworkSize}px;
   height: ${artworkSize}px;
   background-color: #ddd;
+  box-shadow: 0px 6px 13px 2px rgba(168, 168, 168, 0.6);
 `
 
 const Artwork = styled.img`
@@ -48,7 +49,7 @@ interface IndexScreenProps {
   artworkPath?: string
 }
 
-export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title = '', artworkPath }) => (
+export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title = '(Stop)', artworkPath }) => (
   <Layout title={title}>
     <Wrapper>
       <Title>{title}</Title>
