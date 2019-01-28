@@ -5,7 +5,7 @@ export const consts = {
     // height: 720,
     // width: 1280
     // 480p
-    height: 480,
+    height: 530,
     width: 854
   },
   updateRateMs: 2000,

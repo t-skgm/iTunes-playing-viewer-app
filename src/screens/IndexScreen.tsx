@@ -7,7 +7,7 @@ import { TrackInfoItem } from '@/types'
 
 const bgImageWidth = consts.window.width
 const bgImageRedLineRate = 0.15
-const artworkSize = 350
+const artworkSize = 400
 
 const Wrapper = styled.div`
   width: ${bgImageWidth}px;

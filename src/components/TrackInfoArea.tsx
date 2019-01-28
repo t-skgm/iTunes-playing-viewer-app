@@ -28,7 +28,7 @@ const InfoValue = styled.dd`
   flex-basis: 80%;
   padding: 0.4rem 0;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   line-height: 2rem;
 `

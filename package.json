@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server/index.ts",
     "build": "next build src && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node bin/server.js",
+    "start": "NODE_ENV=production node bin/server/index.js",
     "type-check": "tsc",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint-fix": "yarn run lint --fix"
