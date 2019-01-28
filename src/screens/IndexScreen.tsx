@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   width: ${bgImageWidth}px;
   height: ${consts.window.height}px;
   padding: 1rem;
-  background-image: url('/static/images/note.jpg');
+  background-image: url('/static/images/background.jpg');
   background-size: ${bgImageWidth}px;
   background-position: 0 bottom;
 `
@@ -55,9 +55,7 @@ export const IndexScreen: NextComponentType<IndexScreenProps> = ({ items, title 
       <Title>{title}</Title>
       <Detail>
         <ArtworkArea>
-          {artworkPath 
-           ? <Artwork src={artworkPath} />
-           : <Artwork src="/static/images/placeholder-song.png" />}
+          {artworkPath ? <Artwork src={artworkPath} /> : <Artwork src="/static/images/placeholder-song.png" />}
         </ArtworkArea>
         <TrackInfoArea items={items} />
       </Detail>

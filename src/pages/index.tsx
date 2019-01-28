@@ -2,46 +2,10 @@ import * as React from 'react'
 import { withRouter, WithRouterProps } from 'next/router'
 import { client } from '@/services/client'
 import { TrackStatus } from '@/services/jxa/iTunes'
-import { ApiPlayingRes, TrackInfoItem } from '@/types'
+import { ApiPlayingRes } from '@/types'
 import { IndexScreen } from '@/screens/IndexScreen'
 import { consts } from '@/consts'
-
-const parseJSONroughly = (str: string): any => {
-  try {
-    return JSON.parse(str)
-  } catch (error) {
-    return {}
-  }
-}
-
-const formatInfoItems = (track: TrackStatus): TrackInfoItem[] => {
-  const additional = parseJSONroughly(track.comment)
-  const items = [
-    {
-      label: 'Title',
-      value: track.title
-    },
-    {
-      label: 'Artist',
-      value: track.artist
-    },
-    {
-      label: 'Album',
-      value: track.album
-    },
-    {
-      label: 'Year',
-      value: track.year || '?'
-    }
-  ]
-  if (additional.label) {
-    items.push({
-      label: 'Label',
-      value: additional.label
-    })
-  }
-  return items
-}
+import { formatInfoItems } from './formatInfoItems'
 
 const buildArtworkPath = (track: TrackStatus): string => `${consts.artworkServerDir}/${track.artist}-${track.title}.jpg`
 
