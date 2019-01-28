@@ -14,11 +14,11 @@ const Wrapper = styled.dl`
 
 const InfoTitle = styled.dt`
   flex-basis: 20%;
-  padding: .4rem;
+  padding: 0.4rem;
   padding-left: 0;
-  padding-right: .5rem;
+  padding-right: 0.5rem;
   color: #434343;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: normal;
   text-align: right;
   line-height: 2rem;
@@ -26,9 +26,9 @@ const InfoTitle = styled.dt`
 
 const InfoValue = styled.dd`
   flex-basis: 80%;
-  padding: .4rem 0;
+  padding: 0.4rem 0;
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   line-height: 2rem;
 `

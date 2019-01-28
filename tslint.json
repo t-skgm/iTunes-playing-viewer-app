@@ -1,0 +1,37 @@
+{
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "prettier": [
+      true,
+      {
+        "printWidth": 120,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "semi": false
+      }
+    ],
+    "arrow-parens": false,
+    "curly": [true, "ignore-same-line"],
+    "interface-name": false,
+    "jsx-boolean-value": false,
+    "member-access": [true, "no-public"],
+    "no-console": false,
+    "no-empty-interface": false,
+    "no-empty": [true, "allow-empty-functions"],
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [true, "single", "jsx-double", "avoid-escape"],
+    "semicolon": [true, "never"],
+    "trailing-comma": [true, {"esSpecCompliant": true}],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"],
+    "whitespace": [true, "check-module"]
+  }
+}

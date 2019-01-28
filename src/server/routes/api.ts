@@ -7,39 +7,40 @@ import { consts } from '@/consts'
 import { ApiPlayingRes } from '@/types'
 
 const fsProm = fs.promises
-const router = express.Router();
+const router = express.Router()
 
-const buildArtworkPath = (track: TrackStatus) =>
-  path.resolve(`${consts.artworkDir}/${track.artist}-${track.title}.jpg`)
+const buildArtworkPath = (track: TrackStatus) => path.resolve(`${consts.artworkDir}/${track.artist}-${track.title}.jpg`)
 
-const pathExists = async (path: string) => {
+const pathExists = async (pathStr: string) => {
   try {
-    await fsProm.access(path)
+    await fsProm.access(pathStr)
     return true
   } catch {
     return false
   }
 }
 
-const saveCurrentArtwork = async (path: string) => {
+const saveCurrentArtwork = async (filePath: string) => {
   const tdtaStr = await getAlbumArtTdtaStrJXA()
   const buf = helpers.tdtaToBuffer(tdtaStr)
-  return fsProm.writeFile(path, buf)
+  return fsProm.writeFile(filePath, buf)
 }
 
-router.get('/', (_req, res) => res.json({ok: true}));
+router.get('/', (_req, res) => res.json({ ok: true }))
 
 router.get('/playing', async (_req, res) => {
   try {
     const resJson: ApiPlayingRes = await getITunesStatusJXA()
-    const path = buildArtworkPath(resJson.track)
-    const exists = await pathExists(path)
-    if(!exists) await saveCurrentArtwork(path)
+    if (resJson.track) {
+      const filePath = buildArtworkPath(resJson.track)
+      const exists = await pathExists(filePath)
+      if (!exists) await saveCurrentArtwork(filePath)
+    }
     res.json(resJson).status(200)
   } catch (err) {
     console.log(err)
     res.json({ error: JSON.stringify(err) }).status(400)
   }
-});
+})
 
 export default router

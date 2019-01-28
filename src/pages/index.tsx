@@ -6,31 +6,34 @@ import { ApiPlayingRes, TrackInfoItem } from '@/types'
 import { IndexScreen } from '@/screens/IndexScreen'
 import { consts } from '@/consts'
 
-const getAdditionalInfoFromComment = (comment: string): any => {
+const parseJSONroughly = (str: string): any => {
   try {
-    return JSON.parse(comment)
+    return JSON.parse(str)
   } catch (error) {
-    console.log('JSON.parse error', error)
-    console.log('[body]', comment)
     return {}
   }
 }
 
 const formatInfoItems = (track: TrackStatus): TrackInfoItem[] => {
-  const additional = getAdditionalInfoFromComment(track.comment)
-  const items =  [{
-    label: 'Title',
-    value: track.title
-  }, {
-    label: 'Artist',
-    value: track.artist
-  }, {
-    label: 'Album',
-    value: track.album
-  }, {
-    label: 'Year',
-    value: track.year || '?'
-  }]
+  const additional = parseJSONroughly(track.comment)
+  const items = [
+    {
+      label: 'Title',
+      value: track.title
+    },
+    {
+      label: 'Artist',
+      value: track.artist
+    },
+    {
+      label: 'Album',
+      value: track.album
+    },
+    {
+      label: 'Year',
+      value: track.year || '?'
+    }
+  ]
   if (additional.label) {
     items.push({
       label: 'Label',
@@ -40,12 +43,9 @@ const formatInfoItems = (track: TrackStatus): TrackInfoItem[] => {
   return items
 }
 
-const buildArtworkPath = (track: TrackStatus): string =>
-  `${consts.artworkServerDir}/${track.artist}-${track.title}.jpg`
+const buildArtworkPath = (track: TrackStatus): string => `${consts.artworkServerDir}/${track.artist}-${track.title}.jpg`
 
 class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
-  interval: NodeJS.Timeout | null = null
-  
   static getInitialProps = async () => {
     try {
       const data = await client.getPlaying()
@@ -54,21 +54,23 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
       return null
     }
   }
+  interval: NodeJS.Timeout | null = null
 
   componentDidMount() {
     this.interval = setInterval(() => {
       if (this.props.router) this.props.router.push('/')
-    }, consts.updateRateMs);
+    }, consts.updateRateMs)
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval!);
+    clearInterval(this.interval!)
   }
 
   shouldComponentUpdate(nextProps: ApiPlayingRes) {
     if (!this.props.track || !nextProps.track) return true
-    if (this.props.track.title === nextProps.track.title &&
-        this.props.track.album === nextProps.track.album) return false
+    if (this.props.track.title === nextProps.track.title && this.props.track.album === nextProps.track.album) {
+      return false
+    }
     return true
   }
 
@@ -79,8 +81,8 @@ class IndexPage extends React.Component<ApiPlayingRes & WithRouterProps> {
       items: track ? formatInfoItems(track) : [],
       artworkPath: track ? buildArtworkPath(track) : undefined
     }
-    return (<IndexScreen {...passProps} />)
-  }  
+    return <IndexScreen {...passProps} />
+  }
 }
 
 export default withRouter(IndexPage)

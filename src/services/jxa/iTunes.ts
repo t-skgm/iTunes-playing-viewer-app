@@ -23,12 +23,13 @@ export interface PlaylistStatus {
 }
 
 export interface ITunesStatus {
-  track: TrackStatus
-  playlist: PlaylistStatus
+  track?: TrackStatus
+  playlist?: PlaylistStatus
+  error?: any
 }
 
 export const getITunesStatusJXA = (withArtworkStr: boolean = false) =>
-  run<ITunesStatus>(withArtworkStr => {
+  run<ITunesStatus | {}>(withArtworkStrArg => {
     const buildTrackStatusObj = (track: ITunes.Track): TrackStatus => ({
       title: track.name() || '',
       trackNumber: track.trackNumber(),
@@ -40,7 +41,7 @@ export const getITunesStatusJXA = (withArtworkStr: boolean = false) =>
       duration: track.duration(),
       time: track.time(),
       comment: track.comment(),
-      albumArtStr: withArtworkStr ? track.artworks()[0].rawData() : undefined
+      albumArtStr: withArtworkStrArg ? track.artworks()[0].rawData() : undefined
     })
 
     const buildPlStatusObj = (pl: ITunes.Playlist): PlaylistStatus => ({
@@ -61,7 +62,7 @@ export const getITunesStatusJXA = (withArtworkStr: boolean = false) =>
       return iTunesStatus
     } catch (e) {
       console.log(e)
-      return ''
+      return {}
     }
   }, withArtworkStr)
 
